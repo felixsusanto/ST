@@ -1,0 +1,100 @@
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  box-sizing: inherit; }
+
+@font-face {
+  font-family: 'curator_head';
+  src: url("../fonts/curator_head_st_bold-webfont.woff2") format("woff2"), url("../fonts/curator_head_st_bold-webfont.woff") format("woff");
+  font-weight: bold;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'curator_head';
+  src: url("../fonts/curator_head_st_regular-webfont.woff2") format("woff2"), url("../fonts/curator_head_st_regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+
+body {
+  font-family: 'curator_head', sans-serif;
+  font-size: 16px;
+  line-height: 1.3125;
+  color: #333;
+  padding: 20px; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold; }
+
+p {
+  margin-top: 1em; }
+
+h1 {
+  font-size: 21px; }
+
+.wrapper {
+  max-width: 750px;
+  margin: 0 auto; }
+  .wrapper .text-content {
+    width: 83%; }
+
+.legend .info {
+  font-style: italic; }
+
+.legend .cta {
+  padding: 0;
+  list-style: none;
+  font-weight: bold;
+  font-size: 13px; }
+  .legend .cta li {
+    display: inline-block;
+    padding-left: 15px;
+    position: relative; }
+    .legend .cta li:before {
+      content: "";
+      position: absolute;
+      height: 2px;
+      width: 10px;
+      background: #333;
+      left: 0;
+      top: 50%;
+      margin-top: -1px; }
+    .legend .cta li.in:before {
+      background: #fabe9c; }
+    .legend .cta li.th:before {
+      background: #f6ab9a; }
+    .legend .cta li.vn:before {
+      background: #fed47d; }
+    .legend .cta li a {
+      color: #333;
+      text-decoration: none; }
+
+@media (min-width: 450px) {
+  .legend, #line-chart {
+    float: left;
+    position: relative; }
+  .legend {
+    width: 17%;
+    left: 83%;
+    padding-left: 10px; }
+    .legend .cta li {
+      display: block; }
+  #line-chart {
+    width: 83%;
+    right: 17%; } }
+
+.line {
+  fill: transparent; }
+
+.grid .tick line {
+  stroke: #ddd !important;
+  shape-rendering: crispEdges; }
+
+/*#chart {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}*/

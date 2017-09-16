@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Strait Times</title>
+  <!-- normalize.css used to handle quirky browser styling default -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
+  
+</head>
+<body>
+  <div class="wrapper">
+    <div class="text-content">
+      <h1>Causes of the drop in rice production in Asia</h1>
+      <p>Nearly a decade after a spike in global food prices sent shockwaves around the world, Asia's top rice producers are suffering from a blistering drought that threatens to cut output and boost prices of a staple for half the world's population.</p>
+    </div>
+    <div class="chart">
+      <div class="legend">
+        <div class="info">Click to hide/show</div>
+        <div class="year"></div>
+        <ul class="cta">
+          <li class="in"><a href="#">India</a></li>
+          <li class="th"><a href="#">Thailand</a></li>
+          <li class="vn"><a href="#">Vietnam</a></li>
+        </ul>
+
+      </div>
+      <div id="line-chart">
+        <svg id="chart" width="600" height="300"></svg>
+      </div>
+    </div>
+  </div>
+
+<script src="js/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.2/d3.min.js"></script>
+<script src="js/index.js"></script>
+</body>
+
+</html>
