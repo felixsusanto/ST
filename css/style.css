@@ -47,13 +47,14 @@ h1 {
 .legend .cta {
   padding: 0;
   list-style: none;
-  font-weight: bold;
   font-size: 13px; }
+  .legend .cta .rice, .legend .cta .year {
+    display: none; }
   .legend .cta li {
     display: inline-block;
     padding-left: 15px;
     position: relative; }
-    .legend .cta li:before {
+    .legend .cta li:not(.year):before {
       content: "";
       position: absolute;
       height: 2px;
@@ -62,15 +63,21 @@ h1 {
       left: 0;
       top: 50%;
       margin-top: -1px; }
-    .legend .cta li.in:before {
+    .legend .cta li.india:before {
       background: #fabe9c; }
-    .legend .cta li.th:before {
+    .legend .cta li.thailand:before {
       background: #f6ab9a; }
-    .legend .cta li.vn:before {
+    .legend .cta li.vietnam:before {
       background: #fed47d; }
     .legend .cta li a {
       color: #333;
-      text-decoration: none; }
+      text-decoration: none;
+      font-weight: bold; }
+  @media (min-width: 450px) {
+    .legend .cta .rice, .legend .cta .year {
+      display: block; }
+    .legend .cta .rice:empty, .legend .cta .year:empty {
+      display: none; } }
 
 @media (min-width: 450px) {
   .legend, #line-chart {
@@ -105,5 +112,24 @@ h1 {
 
 #chart {
   width: 100%;
-  height: 400px;
+  height: 350px;
   position: absolute; }
+
+.scatterplot .point {
+  opacity: 0;
+  -webkit-transition: opacity 0.3s;
+  -o-transition: opacity 0.3s;
+  transition: opacity 0.3s; }
+  .scatterplot .point.active {
+    opacity: 1; }
+  .india .scatterplot .point {
+    fill: #fabe9c; }
+  .thailand .scatterplot .point {
+    fill: #f6ab9a; }
+  .vietnam .scatterplot .point {
+    fill: #fed47d; }
+
+#vertical-line {
+  stroke: #ddd;
+  stroke-width: 1;
+  shape-rendering: crispEdges; }

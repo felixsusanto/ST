@@ -1,9 +1,9 @@
 
 /* apply a natural box layout model to all elements, but allowing components to change */
 
-$vn: #fed47d;
 $in: #fabe9c;
 $th: #f6ab9a;
+$vn: #fed47d;
 
 @mixin clearfix() {
   &::after {
@@ -69,13 +69,15 @@ h1 {
   .cta {
     padding: 0;
     list-style: none;
-    font-weight: bold;
     font-size: 13px;
+    .rice, .year {
+      display:none;
+    }
     li {
       display: inline-block;
       padding-left: 15px;
       position: relative;
-      &:before {
+      &:not(.year):before {
         content: "";
         position: absolute;
         height: 2px;
@@ -85,18 +87,27 @@ h1 {
         top:50%;
         margin-top: -1px;
       }
-      &.in:before {
+      &.india:before {
         background: $in;
       }
-      &.th:before {
+      &.thailand:before {
         background: $th;
       }
-      &.vn:before {
+      &.vietnam:before {
         background: $vn;
       }
       a {
         color: #333;
         text-decoration: none;
+        font-weight: bold;
+      }
+    }
+    @media(min-width: 450px) {
+      .rice, .year {
+        display: block;
+      }
+      .rice:empty, .year:empty{
+        display:none;
       }
     }
   }
@@ -146,6 +157,29 @@ h1 {
 
 #chart {
   width: 100%;
-  height: 400px;
+  height: 350px;
   position: absolute;
+}
+
+.scatterplot .point{
+  opacity: 0;
+  transition: opacity 0.3s;
+  &.active {
+    opacity: 1;
+  }
+  .india & {
+    fill: $in;
+  }
+  .thailand & {
+    fill: $th;
+  }
+  .vietnam & {
+    fill: $vn;
+  }
+}
+
+#vertical-line {
+  stroke: #ddd;
+  stroke-width:1;
+  shape-rendering: crispEdges;
 }
