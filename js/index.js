@@ -1,8 +1,8 @@
 
-var svg = d3.select("svg"),
+var svg = d3.select("#chart"),
     margin = {top: 20, right: 80, bottom: 30, left: 50},
-    width = svg.attr("width") - margin.left - margin.right,
-    height = svg.attr("height") - margin.top - margin.bottom,
+    width = parseInt(svg.style("width")) - margin.left - margin.right,
+    height = parseInt(svg.style("height")) - margin.top - margin.bottom,
     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var color = {
@@ -12,13 +12,14 @@ var color = {
 };
 
 
-var x = d3.scaleLinear().range([0, width]),
-    y = d3.scaleLinear().range([height, 0]),
-    z = d3.scaleOrdinal(d3.schemeCategory10);
+var xScale = d3.scaleLinear().range([0, width]),
+    yScale = d3.scaleLinear().range([height, 0]);
+
+var xAxis = d3.axisBottom(xScale);
 
 var line = d3.line()
-    .x(function(d) { return x(d.Year); })
-    .y(function(d) { return y(d.Rice); });
+    .x(function(d) { return xScale(d.Year); })
+    .y(function(d) { return yScale(d.Rice); });
 
 d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
   if (error) throw error;
@@ -35,18 +36,16 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
 
   // gridlines in y axis function
   function make_y_gridlines() {   
-    return d3.axisLeft(y).ticks(7);
+    return d3.axisLeft(yScale).ticks(7);
   }
 
-  x.domain(d3.extent(data, function(d) { return d.Year; }));
+  xScale.domain(d3.extent(data, function(d) { return d.Year; }));
 
-  y.domain([
+  yScale.domain([
     d3.min(countries, function(c) { return d3.min(c.values, function(d) { return d.Rice; }); }),
     d3.max(countries, function(c) { return d3.max(c.values, function(d) { return d.Rice; }); })
   ]);
 
-  z.domain(countries.map(function(c) { return c.id; }));
-  
   // add the Y gridlines
   g.append("g")     
       .attr("class", "grid")
@@ -61,12 +60,12 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
   g.append("g")
       .attr("class", "axis axis--x")
       .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x).tickArguments([5, "d"]))
+      .call(xAxis.tickArguments([5, "d"]))
 
   g.append("g")
       .attr("class", "axis axis--y")
       .attr("transform", "translate(0, -5)")
-      .call(d3.axisLeft(y).tickArguments([7]).tickSize(0))
+      .call(d3.axisLeft(yScale).tickArguments([7]).tickSize(0))
     .select(".domain")
       .remove();
 
@@ -88,3 +87,39 @@ function type(d, _, columns) {
   for (var i = 0, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
   return d;
 }
+
+// Define responsive behavior
+function resize() {
+  var width = parseInt(d3.select("#chart").style("width")) - margin.left - margin.right,
+  height = parseInt(d3.select("#chart").style("height")) - margin.top - margin.bottom;
+
+  // Update the range of the scale with new width/height
+  xScale.range([0, width]);
+  yScale.range([height, 0]);
+
+  // Update the axis and text with the new scale
+  svg.select('.axis.axis--x')
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis);
+  var yAxe = d3.axisLeft(yScale);
+  svg.select('.axis.axis--y')
+      .call(yAxe)
+    .select(".domain")
+     .remove();
+
+  // Force D3 to recalculate and update the line
+  svg.selectAll('.line')
+    .attr("d", function(d) { return line(d.values); });
+
+  // Update the tick marks
+  xAxis.tickArguments([Math.max(width/75, 2), "d"])
+  yAxe.tickArguments([Math.max(height/50, 7)]).tickSize(0);
+  console.log(Math.max(height/50, 7));
+  //debugger;
+};
+
+// Call the resize function whenever a resize event occurs
+d3.select(window).on('resize', resize);
+
+// Call the resize function
+resize();
