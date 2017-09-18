@@ -55,7 +55,7 @@ h1 {
     display: inline-block;
     padding-left: 15px;
     position: relative; }
-    .legend .cta li:not(.year):before {
+    .legend .cta li[data-cta]:before {
       content: "";
       position: absolute;
       height: 2px;

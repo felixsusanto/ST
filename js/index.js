@@ -125,7 +125,7 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
         .duration(150)
         .ease(d3.easeLinear);
     
-    var format = d3.format(",");
+    var format = d3.format(",.1f");
     
     $(".legend .cta .year").text(data[index].Year);
     $(".point.active").removeClass("active");

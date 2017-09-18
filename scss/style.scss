@@ -80,7 +80,7 @@ h1 {
       display: inline-block;
       padding-left: 15px;
       position: relative;
-      &:not(.year):before {
+      &[data-cta]:before {
         content: "";
         position: absolute;
         height: 2px;
