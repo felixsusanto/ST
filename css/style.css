@@ -1,3 +1,5 @@
+/* color for country */
+/* mixin for clearfix for float based element */
 /* apply a natural box layout model to all elements, but allowing components to change */
 html {
   -webkit-box-sizing: border-box;
@@ -51,6 +53,8 @@ h1 {
   font-size: 13px; }
   .legend .cta .rice, .legend .cta .year {
     display: none; }
+  .legend .cta [data-cta] + [data-cta] {
+    margin-left: 10px; }
   .legend .cta li {
     display: inline-block;
     padding-left: 15px;
@@ -89,7 +93,9 @@ h1 {
     .legend .cta .rice:empty, .legend .cta .year:empty {
       display: none; }
     .legend .cta li.active .rice {
-      display: block; } }
+      display: block; }
+    .legend .cta [data-cta] + [data-cta] {
+      margin-left: 0; } }
 
 #line-chart h1, #line-chart p {
   margin: 0; }
@@ -128,11 +134,11 @@ h1 {
     content: "";
     clear: both; }
 
-#line-chart {
+.svg-chart-wrapper {
   position: relative;
-  padding-bottom: 40%; }
+  padding-bottom: 80%; }
   @media (min-width: 450px) {
-    #line-chart {
+    .svg-chart-wrapper {
       padding-bottom: 0; } }
 
 #chart {
@@ -175,3 +181,70 @@ h1 {
   -webkit-transition: all 0.3s;
   -o-transition: all 0.3s;
   transition: all 0.3s; }
+
+.svg-chart-wrapper {
+  position: relative; }
+  .svg-chart-wrapper.details .tooltip {
+    opacity: 1; }
+  .svg-chart-wrapper .tooltip {
+    position: absolute;
+    width: 50%;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    padding: 10px;
+    border: 1px solid #333;
+    background: #fff;
+    z-index: 1;
+    font-size: 14px;
+    pointer-events: none;
+    opacity: 0;
+    -webkit-transition: opacity 0.3s;
+    -o-transition: opacity 0.3s;
+    transition: opacity 0.3s; }
+    .svg-chart-wrapper .tooltip .tt-year {
+      font-weight: bold; }
+    .svg-chart-wrapper .tooltip ul {
+      margin: 0;
+      list-style: none;
+      padding-left: 0; }
+    .svg-chart-wrapper .tooltip li {
+      position: relative;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap; }
+      .svg-chart-wrapper .tooltip li::before {
+        content: "";
+        position: absolute;
+        height: 2px;
+        width: 10px;
+        background: #333;
+        left: 0;
+        top: 50%;
+        margin-top: -1px; }
+      .svg-chart-wrapper .tooltip li:before {
+        top: 10px; }
+      .svg-chart-wrapper .tooltip li .tt-country {
+        padding-left: 15px;
+        font-weight: bold; }
+      .svg-chart-wrapper .tooltip li.india:before {
+        background: #fabe9c; }
+      .svg-chart-wrapper .tooltip li.thailand:before {
+        background: #f6ab9a; }
+      .svg-chart-wrapper .tooltip li.vietnam:before {
+        background: #fed47d; }
+      .svg-chart-wrapper .tooltip li .tt-country, .svg-chart-wrapper .tooltip li .val {
+        -webkit-box-flex: 1;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1; }
+      .svg-chart-wrapper .tooltip li .val {
+        text-align: right; }
+    @media (min-width: 450px) {
+      .svg-chart-wrapper .tooltip {
+        display: none; } }

@@ -1,10 +1,10 @@
 
-/* apply a natural box layout model to all elements, but allowing components to change */
-
+/* color for country */
 $in: #fabe9c;
 $th: #f6ab9a;
 $vn: #fed47d;
 
+/* mixin for clearfix for float based element */
 @mixin clearfix() {
   &::after {
     display: block;
@@ -12,8 +12,20 @@ $vn: #fed47d;
     clear: both;
   }
 }
+@mixin chartlegend() {
+  &::before {
+    content: "";
+    position: absolute;
+    height: 2px;
+    width: 10px;
+    background: #333;
+    left: 0;
+    top:50%;
+    margin-top: -1px;
+  }
+}
 
-
+/* apply a natural box layout model to all elements, but allowing components to change */
 html {
   box-sizing: border-box;
 }
@@ -76,6 +88,9 @@ h1 {
     .rice, .year {
       display:none;
     }
+    [data-cta] + [data-cta] {
+      margin-left: 10px;
+    }
     li {
       display: inline-block;
       padding-left: 15px;
@@ -127,6 +142,9 @@ h1 {
       }
       li.active .rice {
         display: block;
+      }
+      [data-cta] + [data-cta] {
+        margin-left: 0;
       }
     }
   }
@@ -182,9 +200,10 @@ h1 {
 
 // d3 chart stuff below
 
-#line-chart {
+//#line-chart,
+.svg-chart-wrapper {
   position: relative;
-  padding-bottom: 40%;
+  padding-bottom: 80%;
   @media(min-width: 450px){
     padding-bottom: 0;
   }
@@ -240,5 +259,66 @@ h1 {
 .transition {
   * {
     transition: all 0.3s;
+  }
+}
+
+.svg-chart-wrapper {
+  position: relative;
+  &.details .tooltip{
+    opacity: 1;
+  }
+  .tooltip {
+    position: absolute;
+    width: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 10px;
+    border: 1px solid #333;
+    background: #fff;
+    z-index: 1;
+    font-size: 14px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    .tt-year {
+      font-weight: bold;
+    }
+    ul {
+      margin: 0;
+      list-style: none;
+      padding-left: 0;
+    }
+    li {
+      position: relative;
+      display:flex;
+      flex-wrap: wrap;
+      @include chartlegend();
+      &:before {
+        top: 10px;
+      }
+      .tt-country {
+        padding-left: 15px;
+        font-weight: bold;
+        
+      }
+      &.india:before {
+        background: $in;
+      }
+      &.thailand:before {
+        background: $th;
+      }
+      &.vietnam:before {
+        background: $vn;
+      }
+      .tt-country, .val {
+        flex: 1;
+      }
+      .val {
+        text-align: right;
+      }
+    }
+    @media(min-width: 450px) {
+      display:none;
+    }
   }
 }

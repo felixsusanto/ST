@@ -72,8 +72,6 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
       .style("stroke", function(d) { return color[d.id]; })
       .attr("stroke-width", 2)
       .on("click", function() {
-        console.log('hehehhe');
-        console.log(d3.event);
         d3.event.stopPropagation();
         $(".line.active").removeClass("active");
         $(this).closest("svg").addClass("line-active");
@@ -126,8 +124,10 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
         .ease(d3.easeLinear);
     
     var format = d3.format(",.1f");
+
+    $(".svg-chart-wrapper").addClass("details");
     
-    $(".legend .cta .year").text(data[index].Year);
+    
     $(".point.active").removeClass("active");
     $(".country .scatterplot").each(function(id, el) {
       $(this).find(".point").eq(index).addClass("active");
@@ -153,10 +153,26 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
       ;
     }
 
+    d3.select(".tooltip")
+      .transition(t)
+      .attr("style", function() {
+          var ttWidth = parseInt(d3.select(this).style("width"));
+          if(ttWidth + (+targetX) > width) {
+            return "right: "+ (width - parseInt(targetX,10) + 35) +"px;"; 
+          } else {
+            return "left: "+ (+targetX + 35) +"px;"; 
+          }
+          
+        })
+      ;
+
     for(var i = 0; i < countries.length; i++) {
       var country = countries[i].id;
+      $(".tooltip ." + country.toLowerCase() + " .val").text(format(+data[index][country]));
       $(".legend .cta ." + country.toLowerCase() + " .rice").text(format(+data[index][country]));
     }
+    // year
+    $(".legend .cta .year, .tooltip .tt-year").text(data[index].Year);
 
     if($(this).hasClass("line-active")) {
       $(".line.active").removeClass("active");
@@ -177,7 +193,6 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
     svg.select('.axis.axis--x')
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis);
-    
     svg.select('.axis.axis--y')
       .call(customYAxis);
 
@@ -197,6 +212,8 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
       d3.select("#vertical-line")
         .attr("x1", $(".point.active").attr("cx"))
         .attr("x2", $(".point.active").attr("cx"))
+        .attr("y1", "0")
+        .attr("y2", height);
     }
   };
 
@@ -235,11 +252,11 @@ $(".legend .cta a").on("click", function() {
 
   //check if it's the last active country 
   if($(this).closest('li').hasClass('active')) {
-    //this is attempt to turn off
+    //this is attempt to turn off a line graph
     //check if it's the only remaining active
     if($(".legend .active").length == 1) {
       console.log('you cant switch off the last country!');
-      requireUpdate = false;
+      requireUpdate = false; //flag to not update the view
     } else {
       $(this).closest("li").toggleClass("active");
       classname = $(this).closest("li").attr("class");
@@ -249,6 +266,7 @@ $(".legend .cta a").on("click", function() {
       ;
     }
   } else {
+    //this is turning on line graph
     classname = $(this).closest("li").attr("class");
     d3.select("."+classname +".country").transition()
       .style("opacity", 1)
@@ -262,13 +280,17 @@ $(".legend .cta a").on("click", function() {
       activeCountry.push($(this).attr("class").replace(/active/g, '').trim());
     });
     updateDomain(activeCountry);
+    sortingCta.call(this);
   }
   
   resetLegend();
+
+  
 });
 
 function resetLegend() {
   $(".legend .cta .year, .legend .cta .rice").text('');
+  $(".svg-chart-wrapper").removeClass("details");
 }
 
 function updateDomain(countriesArr) {
@@ -290,11 +312,18 @@ function updateDomain(countriesArr) {
     .attr("cy", function(d) { return yScale(d.y); });
 }
 
-/*
-$(".line").on("click", function() {
-  console.log('hehehhe');
-  $(".line.active").removeClass("active");
-  $(this).closest("svg").addClass("line-active");
-  $(this).addClass("active");
-});
-*/
+function sortingCta() {
+  var array = [];
+  $("[data-cta]").each(function(id, el) {
+    var res = '';
+    res += ($(el).hasClass('active')) ? '0' : '1';
+    res += $(el).data('cta');
+    array.push(res);
+  });
+  d3.selectAll("[data-cta]")
+    .data(array)
+    .sort(function(a, b) {
+        return a - b;
+      })
+  ;
+}

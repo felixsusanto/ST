@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Strait Times</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- normalize.css used to handle quirky browser styling default -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
   <link rel="stylesheet" href="css/style.css">
@@ -20,26 +21,46 @@
         <div class="year"></div>
         <ul class="cta">
           <li class="year"></li>
-          <li data-cta="1" class="india active">
-            <a href="#">India</a>
+          <li data-cta="0" class="india active">
+            <a href="#0">India</a>
             <div class="rice"></div>
           </li>
           <li data-cta="1" class="thailand active">
-            <a href="#">Thailand</a>
+            <a href="#0">Thailand</a>
             <div class="rice"></div>
           </li>
-          <li data-cta="1" class="vietnam active">
-            <a href="#">Vietnam</a>
+          <li data-cta="2" class="vietnam active">
+            <a href="#0">Vietnam</a>
             <div class="rice"></div>
           </li>
-          <li class="inactive-container"></li>
         </ul>
 
       </div>
       <div id="line-chart">
         <h1>MILLED RICE ENDING STOCKS</h1>
         <p>Thousand metric tonnes</p>
-        <svg id="chart" class="transition"></svg>
+        <div class="svg-chart-wrapper">
+          <div class="tooltip">
+            <div class="tt-year"></div>
+            <div class="tt-meta">
+              <ul>
+                <li class="india">
+                  <div class="tt-country">India</div>
+                  <div class="val"></div>
+                </li>
+                <li class="thailand">
+                  <div class="tt-country">Thailand</div>
+                  <div class="val"></div>
+                </li>
+                <li class="vietnam">
+                  <div class="tt-country">Vietnam</div>
+                  <div class="val"></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <svg id="chart" class="transition"></svg>
+        </div>
       </div>
     </div>
   </div>
