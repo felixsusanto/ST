@@ -17,7 +17,7 @@ var xScale = d3.scaleLinear().range([xRangePadding, width]),
     yScale = d3.scaleLinear().range([height, 0]);
 
 var xAxis = d3.axisBottom(xScale);
-var yAxis = d3.axisLeft(yScale).tickSize(-width);
+var yAxis = d3.axisLeft(yScale);
 
 var line = d3.line()
     .x(function(d) { return xScale(d.Year); })
@@ -70,7 +70,15 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
       .attr("class", "line")
       .attr("d", function(d) { return line(d.values); })
       .style("stroke", function(d) { return color[d.id]; })
-      .attr("stroke-width", 2);
+      .attr("stroke-width", 2)
+      .on("click", function() {
+        console.log('hehehhe');
+        console.log(d3.event);
+        d3.event.stopPropagation();
+        $(".line.active").removeClass("active");
+        $(this).closest("svg").addClass("line-active");
+        $(this).addClass("active");
+      });
 
   // Add the scatterplot
   
@@ -92,6 +100,7 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
       .data(series)
       .append("g")
         .attr("class", "scatterplot")
+        .lower()
     .selectAll(".point")
       .data(function(d) {return d;})
     .enter().append("circle")
@@ -111,8 +120,6 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
     var yearMinMax = d3.extent(data, function(d) { return d.Year; });
     var index = (closestYear - yearMinMax[0]) < 0 ? 0: (closestYear - yearMinMax[0]);
     index = index > (yearMinMax[1]-yearMinMax[0])? (yearMinMax[1]-yearMinMax[0]): index;
-
-    console.log(mouse_x, closestYear);
 
     var t = d3.transition()
         .duration(150)
@@ -151,6 +158,10 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
       $(".legend .cta ." + country.toLowerCase() + " .rice").text(format(+data[index][country]));
     }
 
+    if($(this).hasClass("line-active")) {
+      $(".line.active").removeClass("active");
+      $(this).removeClass("line-active");
+    }
   });
 
   // Define responsive behavior
@@ -168,7 +179,6 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
       .call(xAxis);
     
     svg.select('.axis.axis--y')
-
       .call(customYAxis);
 
     // Force D3 to recalculate and update the line
@@ -202,7 +212,7 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
 // utility function
 
 function customYAxis(g) {
-  g.call(yAxis.ticks(5));
+  g.call(yAxis.tickSize(-width).tickArguments([Math.max(height/50, 3)]));
   g.select(".domain").remove();
   g.selectAll(".tick line")
     .attr("stroke", "#ddd")
@@ -221,6 +231,7 @@ function type(d, _, columns) {
 $(".legend .cta a").on("click", function() {
   var requireUpdate = true;
   var activeCountry = [];
+  var classname;
 
   //check if it's the last active country 
   if($(this).closest('li').hasClass('active')) {
@@ -231,8 +242,18 @@ $(".legend .cta a").on("click", function() {
       requireUpdate = false;
     } else {
       $(this).closest("li").toggleClass("active");
+      classname = $(this).closest("li").attr("class");
+      d3.select("."+classname +".country").transition()
+        .style("opacity", 0)
+        .attr("transform", "translate(0,"+(2*height)+")")
+      ;
     }
   } else {
+    classname = $(this).closest("li").attr("class");
+    d3.select("."+classname +".country").transition()
+      .style("opacity", 1)
+      .attr("transform", "translate(0,0)")
+    ;
     $(this).closest("li").toggleClass("active");
   }
   
@@ -269,3 +290,11 @@ function updateDomain(countriesArr) {
     .attr("cy", function(d) { return yScale(d.y); });
 }
 
+/*
+$(".line").on("click", function() {
+  console.log('hehehhe');
+  $(".line.active").removeClass("active");
+  $(this).closest("svg").addClass("line-active");
+  $(this).addClass("active");
+});
+*/

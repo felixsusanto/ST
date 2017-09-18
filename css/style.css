@@ -38,8 +38,9 @@ h1 {
 .wrapper {
   max-width: 750px;
   margin: 0 auto; }
-  .wrapper .text-content {
-    width: 83%; }
+  @media (min-width: 450px) {
+    .wrapper .text-content {
+      width: 83%; } }
 
 .legend .info {
   font-style: italic; }
@@ -114,7 +115,7 @@ h1 {
     right: 17%; } }
 
 .line {
-  fill: transparent; }
+  fill: none; }
 
 .axis.axis--y .tick line {
   stroke: #ddd !important;
@@ -164,13 +165,13 @@ h1 {
   stroke-width: 1;
   shape-rendering: crispEdges; }
 
-.line {
+.line.active {
+  stroke-width: 4; }
+
+.line-active .line:not(.active) {
+  opacity: 0.5; }
+
+.transition * {
   -webkit-transition: all 0.3s;
   -o-transition: all 0.3s;
-  transition: all 0.3s;
-  opacity: 1; }
-  .line.inactive {
-    opacity: 0;
-    -webkit-transform: translateY(100%);
-    -ms-transform: translateY(100%);
-    transform: translateY(100%); }
+  transition: all 0.3s; }

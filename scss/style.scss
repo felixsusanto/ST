@@ -57,8 +57,10 @@ h1 {
 .wrapper {
   max-width: 750px;
   margin: 0 auto;
-  .text-content {
-    width: 83%;
+  @media(min-width: 450px) {
+    .text-content {
+      width: 83%;
+    }  
   }
 }
 
@@ -164,7 +166,7 @@ h1 {
 }
 
 .line {
-  fill: transparent;
+  fill: none;
 }
 
 .axis.axis--y .tick line {
@@ -225,10 +227,18 @@ h1 {
 }
 
 .line {
-  transition: all 0.3s;
-  opacity: 1;
-  &.inactive {
-    opacity: 0;
-    transform: translateY(100%);
+  &.active {
+    stroke-width: 4;
+  }
+  @at-root {
+    .line-active .line:not(.active) {
+      opacity: 0.5;
+    }
+  }
+}
+
+.transition {
+  * {
+    transition: all 0.3s;
   }
 }
