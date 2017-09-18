@@ -70,6 +70,7 @@ h1 {
     padding: 0;
     list-style: none;
     font-size: 13px;
+
     .rice, .year {
       display:none;
     }
@@ -97,17 +98,33 @@ h1 {
         background: $vn;
       }
       a {
-        color: #333;
+        color:#ddd;
         text-decoration: none;
         font-weight: bold;
+        transition: color 0.3s;
+        .rice {
+          display:none;
+        }
+      }
+
+      &.active {
+        a {
+          color: #333;
+        }
+        .rice {
+          display: none;
+        }
       }
     }
     @media(min-width: 450px) {
-      .rice, .year {
+      .year {
         display: block;
       }
       .rice:empty, .year:empty{
         display:none;
+      }
+      li.active .rice {
+        display: block;
       }
     }
   }
@@ -150,7 +167,7 @@ h1 {
   fill: transparent;
 }
 
-.grid .tick line {
+.axis.axis--y .tick line {
   stroke: #ddd!important;
   shape-rendering: crispEdges;
 
@@ -161,15 +178,27 @@ h1 {
   @include clearfix();
 }
 
+// d3 chart stuff below
+
 #line-chart {
   position: relative;
   padding-bottom: 40%;
+  @media(min-width: 450px){
+    padding-bottom: 0;
+  }
 }
 
 #chart {
   width: 100%;
   height: 100%;
   position: absolute;
+  .axis.axis--y .domain,
+  .axis.axis--x .domain {
+    display: none;
+  }
+  @media(min-width: 450px){
+    height: 350px;
+  }
 }
 
 .scatterplot .point{
@@ -193,4 +222,13 @@ h1 {
   stroke: #ddd;
   stroke-width:1;
   shape-rendering: crispEdges;
+}
+
+.line {
+  transition: all 0.3s;
+  opacity: 1;
+  &.inactive {
+    opacity: 0;
+    transform: translateY(100%);
+  }
 }

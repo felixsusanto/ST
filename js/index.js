@@ -1,10 +1,10 @@
 
 var svg = d3.select("#chart"),
-    margin = {top: 20, right: 30, bottom: 30, left: 0},
+    margin = {top: 20, right: 30, bottom: 30, left: 30},
     width = parseInt(svg.style("width")) - margin.left - margin.right,
     height = parseInt(svg.style("height")) - margin.top - margin.bottom,
     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")").attr("id", "chart-content"),
-    xRangePadding = 50;
+    xRangePadding = 20;
 
 var color = {
   "Vietnam": "#FED47D",
@@ -17,7 +17,7 @@ var xScale = d3.scaleLinear().range([xRangePadding, width]),
     yScale = d3.scaleLinear().range([height, 0]);
 
 var xAxis = d3.axisBottom(xScale);
-var yAxis = d3.axisRight(yScale).tickSize(width);
+var yAxis = d3.axisLeft(yScale).tickSize(-width);
 
 var line = d3.line()
     .x(function(d) { return xScale(d.Year); })
@@ -39,8 +39,7 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
   });
 
   xScale.domain(d3.extent(data, function(d) { return d.Year; }));
-  yScale.domain([
-    d3.min(countries, function(c) { return d3.min(c.values, function(d) { return d.Rice; }); }),
+  yScale.domain([0,
     d3.max(countries, function(c) { return d3.max(c.values, function(d) { return d.Rice; }); })
   ]);
 
@@ -99,25 +98,21 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
       .attr("class", "point")
       .attr("r", 4)
       .attr("cx", function(d) { return xScale(d.x); })
-      .attr("cy", function(d) { return yScale(d.y); });
+      .attr("cy", function(d) { return yScale(d.y); })
+  ;
 
-  // utility function
-
-  function customYAxis(g) {
-    g.call(yAxis.ticks(7));
-    g.select(".domain").remove();
-    g.selectAll(".tick line").attr("stroke", "#ddd");
-    g.selectAll(".tick text").attr("x", 4).attr("dy", -4);
-  }
+  
 
   //event listener
   
   svg.on('click', function(d) { 
-    var mouse_x = d3.mouse(this)[0];
+    var mouse_x = d3.mouse(this)[0] - margin.left;
     var closestYear = Math.round(xScale.invert(mouse_x));
     var yearMinMax = d3.extent(data, function(d) { return d.Year; });
     var index = (closestYear - yearMinMax[0]) < 0 ? 0: (closestYear - yearMinMax[0]);
     index = index > (yearMinMax[1]-yearMinMax[0])? (yearMinMax[1]-yearMinMax[0]): index;
+
+    console.log(mouse_x, closestYear);
 
     var t = d3.transition()
         .duration(150)
@@ -172,7 +167,9 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis);
     
-    svg.select('.axis.axis--y');
+    svg.select('.axis.axis--y')
+
+      .call(customYAxis);
 
     // Force D3 to recalculate and update the line
     svg.selectAll('.line')
@@ -184,7 +181,8 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
 
     // Update the tick marks
     xAxis.tickArguments([Math.max(width/75, 2), "d"])
-    //yAxe.tickArguments([Math.max(height/50, 7)]).tickSize(0);
+    //yAxis.tickArguments([Math.max(height/50, 2)]);
+
     if($("#vertical-line").length) {
       d3.select("#vertical-line")
         .attr("x1", $(".point.active").attr("cx"))
@@ -201,10 +199,73 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
    
 });
 
+// utility function
+
+function customYAxis(g) {
+  g.call(yAxis.ticks(5));
+  g.select(".domain").remove();
+  g.selectAll(".tick line")
+    .attr("stroke", "#ddd")
+    .attr("x1", - margin.left)
+  ;
+  g.selectAll(".tick text").attr("x", 4).attr("dy", -4);
+}
+
 
 function type(d, _, columns) {
   //processing string value to a number
   for (var i = 0, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
   return d;
+}
+
+$(".legend .cta a").on("click", function() {
+  var requireUpdate = true;
+  var activeCountry = [];
+
+  //check if it's the last active country 
+  if($(this).closest('li').hasClass('active')) {
+    //this is attempt to turn off
+    //check if it's the only remaining active
+    if($(".legend .active").length == 1) {
+      console.log('you cant switch off the last country!');
+      requireUpdate = false;
+    } else {
+      $(this).closest("li").toggleClass("active");
+    }
+  } else {
+    $(this).closest("li").toggleClass("active");
+  }
+  
+  if(requireUpdate) {
+    $(".legend .active").each(function() {
+      activeCountry.push($(this).attr("class").replace(/active/g, '').trim());
+    });
+    updateDomain(activeCountry);
+  }
+  
+  resetLegend();
+});
+
+function resetLegend() {
+  $(".legend .cta .year, .legend .cta .rice").text('');
+}
+
+function updateDomain(countriesArr) {
+  var maxRice = d3.max(countries, function(d) {
+    function memberOf(country) {
+      return country == d.id.toLowerCase();
+    }
+    if(countriesArr.some(memberOf)) {
+      return d3.max(d.values, function(r) {
+        return r.Rice;
+      });
+    }
+  });
+  yScale.domain([0,maxRice]);
+  d3.select(".axis.axis--y").transition().call(customYAxis);
+  d3.selectAll(".line").transition().attr("d", function(d) { return line(d.values); });
+  d3.selectAll(".point").transition()
+    .attr("cx", function(d) { return xScale(d.x); })
+    .attr("cy", function(d) { return yScale(d.y); });
 }
 
