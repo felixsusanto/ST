@@ -1,6 +1,3 @@
-/* color for country */
-/* mixin for clearfix for float based element */
-/* apply a natural box layout model to all elements, but allowing components to change */
 html {
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
