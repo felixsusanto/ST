@@ -113,6 +113,17 @@ h1 {
   }
 }
 
+#line-chart {
+  h1, p {
+    margin: 0;
+  }
+  h1{
+    font-size: 16px;
+  }
+  p {
+    font-size: 14px;
+  }
+}
 
 @media(min-width: 450px) {
   .legend, #line-chart {
@@ -152,12 +163,12 @@ h1 {
 
 #line-chart {
   position: relative;
-  //padding-bottom: 40%;
+  padding-bottom: 40%;
 }
 
 #chart {
   width: 100%;
-  height: 350px;
+  height: 100%;
   position: absolute;
 }
 

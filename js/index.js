@@ -27,7 +27,7 @@ var countries;
 
 d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
   if (error) throw error;
-  console.log(data);
+  // console.log(data);
   // ex: [{Year: 1990, Vietnam: 0, India: 14500, Thailand: 941},...];
   countries = data.columns.slice(1).map(function(id) {
     return {

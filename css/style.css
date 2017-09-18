@@ -79,6 +79,15 @@ h1 {
     .legend .cta .rice:empty, .legend .cta .year:empty {
       display: none; } }
 
+#line-chart h1, #line-chart p {
+  margin: 0; }
+
+#line-chart h1 {
+  font-size: 16px; }
+
+#line-chart p {
+  font-size: 14px; }
+
 @media (min-width: 450px) {
   .legend, #line-chart {
     float: left;
@@ -108,11 +117,12 @@ h1 {
     clear: both; }
 
 #line-chart {
-  position: relative; }
+  position: relative;
+  padding-bottom: 40%; }
 
 #chart {
   width: 100%;
-  height: 350px;
+  height: 100%;
   position: absolute; }
 
 .scatterplot .point {
