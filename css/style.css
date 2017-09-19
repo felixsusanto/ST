@@ -1,247 +1,344 @@
 html {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+}
 
 *, *:before, *:after {
-  -webkit-box-sizing: inherit;
-  box-sizing: inherit; }
+  box-sizing: inherit;
+}
 
 @font-face {
   font-family: 'curator_head';
   src: url("../fonts/curator_head_st_bold-webfont.woff2") format("woff2"), url("../fonts/curator_head_st_bold-webfont.woff") format("woff");
   font-weight: bold;
-  font-style: normal; }
+  font-style: normal;
+}
 
 @font-face {
   font-family: 'curator_head';
   src: url("../fonts/curator_head_st_regular-webfont.woff2") format("woff2"), url("../fonts/curator_head_st_regular-webfont.woff") format("woff");
   font-weight: normal;
-  font-style: normal; }
+  font-style: normal;
+}
 
 body {
   font-family: 'curator_head', sans-serif;
   font-size: 16px;
   line-height: 1.3125;
   color: #333;
-  padding: 20px; }
+  padding: 20px;
+}
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 p {
-  margin-top: 1em; }
+  margin-top: 1em;
+}
 
 h1 {
-  font-size: 21px; }
+  font-size: 21px;
+}
 
 .wrapper {
   max-width: 750px;
-  margin: 0 auto; }
-  @media (min-width: 450px) {
-    .wrapper .text-content {
-      width: 83%; } }
+  margin: 0 auto;
+}
+
+@media (min-width: 450px) {
+  .wrapper .text-content {
+    width: 83%;
+  }
+}
 
 .legend .info {
-  font-style: italic; }
+  font-style: italic;
+}
 
 .legend .cta {
   padding: 0;
   list-style: none;
-  font-size: 13px; }
-  .legend .cta .rice, .legend .cta .year {
-    display: none; }
+  font-size: 13px;
+}
+
+.legend .cta .rice, .legend .cta .year {
+  display: none;
+}
+
+.legend .cta [data-cta].transit {
+  transition: transform 0.3s;
+}
+
+.legend .cta [data-cta] + [data-cta] {
+  margin-left: 10px;
+}
+
+.legend .cta li {
+  display: inline-block;
+  padding-left: 15px;
+  position: relative;
+}
+
+.legend .cta li[data-cta]:before {
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 10px;
+  background: #333;
+  left: 0;
+  top: 50%;
+  margin-top: -1px;
+}
+
+.legend .cta li.india:before {
+  background: #fabe9c;
+}
+
+.legend .cta li.thailand:before {
+  background: #f6ab9a;
+}
+
+.legend .cta li.vietnam:before {
+  background: #fed47d;
+}
+
+.legend .cta li a {
+  color: #ddd;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.legend .cta li a .rice {
+  display: none;
+}
+
+.legend .cta li.active a {
+  color: #333;
+}
+
+.legend .cta li.active .rice {
+  display: none;
+}
+
+@media (min-width: 450px) {
+  .legend .cta .year {
+    display: block;
+  }
+  .legend .cta .rice:empty, .legend .cta .year:empty {
+    display: none;
+  }
+  .legend .cta li.active .rice {
+    display: block;
+  }
   .legend .cta [data-cta] + [data-cta] {
-    margin-left: 10px; }
-  .legend .cta li {
-    display: inline-block;
-    padding-left: 15px;
-    position: relative; }
-    .legend .cta li[data-cta]:before {
-      content: "";
-      position: absolute;
-      height: 2px;
-      width: 10px;
-      background: #333;
-      left: 0;
-      top: 50%;
-      margin-top: -1px; }
-    .legend .cta li.india:before {
-      background: #fabe9c; }
-    .legend .cta li.thailand:before {
-      background: #f6ab9a; }
-    .legend .cta li.vietnam:before {
-      background: #fed47d; }
-    .legend .cta li a {
-      color: #ddd;
-      text-decoration: none;
-      font-weight: bold;
-      -webkit-transition: color 0.3s;
-      -o-transition: color 0.3s;
-      transition: color 0.3s; }
-      .legend .cta li a .rice {
-        display: none; }
-    .legend .cta li.active a {
-      color: #333; }
-    .legend .cta li.active .rice {
-      display: none; }
-  @media (min-width: 450px) {
-    .legend .cta .year {
-      display: block; }
-    .legend .cta .rice:empty, .legend .cta .year:empty {
-      display: none; }
-    .legend .cta li.active .rice {
-      display: block; }
-    .legend .cta [data-cta] + [data-cta] {
-      margin-left: 0; } }
+    margin-left: 0;
+  }
+}
 
 #line-chart h1, #line-chart p {
-  margin: 0; }
+  margin: 0;
+}
 
 #line-chart h1 {
-  font-size: 16px; }
+  font-size: 16px;
+}
 
 #line-chart p {
-  font-size: 14px; }
+  font-size: 14px;
+}
 
 @media (min-width: 450px) {
   .legend, #line-chart {
     float: left;
-    position: relative; }
+    position: relative;
+  }
   .legend {
     width: 17%;
     left: 83%;
-    padding-left: 10px; }
-    .legend .cta li {
-      display: block; }
+    padding-left: 10px;
+  }
+  .legend .cta li {
+    display: block;
+  }
   #line-chart {
     width: 83%;
-    right: 17%; } }
+    right: 17%;
+  }
+}
 
 .line {
-  fill: none; }
+  fill: none;
+}
 
 .axis.axis--y .tick line {
   stroke: #ddd !important;
-  shape-rendering: crispEdges; }
+  shape-rendering: crispEdges;
+}
 
 .chart {
-  position: relative; }
-  .chart::after {
-    display: block;
-    content: "";
-    clear: both; }
+  position: relative;
+}
+
+.chart::after {
+  display: block;
+  content: "";
+  clear: both;
+}
 
 .svg-chart-wrapper {
   position: relative;
-  padding-bottom: 80%; }
-  @media (min-width: 450px) {
-    .svg-chart-wrapper {
-      padding-bottom: 0; } }
+  padding-bottom: 80%;
+}
+
+@media (min-width: 450px) {
+  .svg-chart-wrapper {
+    padding-bottom: 0;
+    height: 350px;
+  }
+}
 
 #chart {
   width: 100%;
   height: 100%;
-  position: absolute; }
-  #chart .axis.axis--y .domain,
-  #chart .axis.axis--x .domain {
-    display: none; }
-  @media (min-width: 450px) {
-    #chart {
-      height: 350px; } }
+  position: absolute;
+}
+
+#chart .axis.axis--y .domain,
+#chart .axis.axis--x .domain {
+  display: none;
+}
+
+@media (min-width: 450px) {
+  #chart {
+    height: 350px;
+  }
+}
 
 .scatterplot .point {
   opacity: 0;
-  -webkit-transition: opacity 0.3s;
-  -o-transition: opacity 0.3s;
-  transition: opacity 0.3s; }
-  .scatterplot .point.active {
-    opacity: 1; }
-  .india .scatterplot .point {
-    fill: #fabe9c; }
-  .thailand .scatterplot .point {
-    fill: #f6ab9a; }
-  .vietnam .scatterplot .point {
-    fill: #fed47d; }
+  transition: opacity 0.3s;
+}
+
+.scatterplot .point.active {
+  opacity: 1;
+}
+
+.india .scatterplot .point {
+  fill: #fabe9c;
+}
+
+.thailand .scatterplot .point {
+  fill: #f6ab9a;
+}
+
+.vietnam .scatterplot .point {
+  fill: #fed47d;
+}
 
 #vertical-line {
   stroke: #ddd;
   stroke-width: 1;
-  shape-rendering: crispEdges; }
+  shape-rendering: crispEdges;
+}
 
 .line.active {
-  stroke-width: 4; }
+  stroke-width: 4;
+}
 
 .line-active .line:not(.active) {
-  opacity: 0.5; }
+  opacity: 0.5;
+}
 
 .transition * {
-  -webkit-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s; }
+  transition: all 0.3s;
+}
 
 .svg-chart-wrapper {
-  position: relative; }
-  .svg-chart-wrapper.details .tooltip {
-    opacity: 1; }
+  position: relative;
+}
+
+.svg-chart-wrapper.details .tooltip {
+  opacity: 1;
+}
+
+.svg-chart-wrapper .tooltip {
+  position: absolute;
+  width: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 10px;
+  border: 1px solid #333;
+  background: #fff;
+  z-index: 1;
+  font-size: 14px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.svg-chart-wrapper .tooltip .tt-year {
+  font-weight: bold;
+}
+
+.svg-chart-wrapper .tooltip ul {
+  margin: 0;
+  list-style: none;
+  padding-left: 0;
+}
+
+.svg-chart-wrapper .tooltip li {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.svg-chart-wrapper .tooltip li::before {
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 10px;
+  background: #333;
+  left: 0;
+  top: 50%;
+  margin-top: -1px;
+}
+
+.svg-chart-wrapper .tooltip li:before {
+  top: 10px;
+}
+
+.svg-chart-wrapper .tooltip li .tt-country {
+  padding-left: 15px;
+  font-weight: bold;
+}
+
+.svg-chart-wrapper .tooltip li.india:before {
+  background: #fabe9c;
+}
+
+.svg-chart-wrapper .tooltip li.thailand:before {
+  background: #f6ab9a;
+}
+
+.svg-chart-wrapper .tooltip li.vietnam:before {
+  background: #fed47d;
+}
+
+.svg-chart-wrapper .tooltip li .tt-country, .svg-chart-wrapper .tooltip li .val {
+  flex: 1;
+}
+
+.svg-chart-wrapper .tooltip li .val {
+  text-align: right;
+}
+
+@media (min-width: 450px) {
   .svg-chart-wrapper .tooltip {
-    position: absolute;
-    width: 50%;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-    padding: 10px;
-    border: 1px solid #333;
-    background: #fff;
-    z-index: 1;
-    font-size: 14px;
-    pointer-events: none;
-    opacity: 0;
-    -webkit-transition: opacity 0.3s;
-    -o-transition: opacity 0.3s;
-    transition: opacity 0.3s; }
-    .svg-chart-wrapper .tooltip .tt-year {
-      font-weight: bold; }
-    .svg-chart-wrapper .tooltip ul {
-      margin: 0;
-      list-style: none;
-      padding-left: 0; }
-    .svg-chart-wrapper .tooltip li {
-      position: relative;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-      flex-wrap: wrap; }
-      .svg-chart-wrapper .tooltip li::before {
-        content: "";
-        position: absolute;
-        height: 2px;
-        width: 10px;
-        background: #333;
-        left: 0;
-        top: 50%;
-        margin-top: -1px; }
-      .svg-chart-wrapper .tooltip li:before {
-        top: 10px; }
-      .svg-chart-wrapper .tooltip li .tt-country {
-        padding-left: 15px;
-        font-weight: bold; }
-      .svg-chart-wrapper .tooltip li.india:before {
-        background: #fabe9c; }
-      .svg-chart-wrapper .tooltip li.thailand:before {
-        background: #f6ab9a; }
-      .svg-chart-wrapper .tooltip li.vietnam:before {
-        background: #fed47d; }
-      .svg-chart-wrapper .tooltip li .tt-country, .svg-chart-wrapper .tooltip li .val {
-        -webkit-box-flex: 1;
-        -webkit-flex: 1;
-        -ms-flex: 1;
-        flex: 1; }
-      .svg-chart-wrapper .tooltip li .val {
-        text-align: right; }
-    @media (min-width: 450px) {
-      .svg-chart-wrapper .tooltip {
-        display: none; } }
+    display: none;
+  }
+}
+
+.hide {
+  display: none !important;
+}

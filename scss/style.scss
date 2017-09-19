@@ -94,9 +94,15 @@ h1 {
     .rice, .year {
       display:none;
     }
-    [data-cta] + [data-cta] {
-      margin-left: 10px;
+    [data-cta] {
+      &.transit {
+        transition: transform 0.3s;  
+      }
+      + [data-cta] {
+        margin-left: 10px;
+      }
     }
+    
     li {
       display: inline-block;
       padding-left: 15px;
@@ -213,6 +219,7 @@ h1 {
   padding-bottom: 80%;
   @media(min-width: 450px){
     padding-bottom: 0;
+    height: 350px;
   }
 }
 
@@ -338,4 +345,8 @@ h1 {
       display:none;
     }
   }
+}
+
+.hide {
+  display:none!important;
 }

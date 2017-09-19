@@ -174,6 +174,14 @@ d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
     // year
     $(".legend .cta .year, .tooltip .tt-year").text(data[index].Year);
 
+    //reset tooltip to viewable
+    $(".tooltip .tt-meta li").removeClass("hide");
+    //removing non-active cta from tooltip
+    $("[data-cta]:not(.active)").each(function() {
+      var targetClass = $(this).attr("class");
+      $(".tooltip ."+targetClass).addClass("hide");
+    });
+
     if($(this).hasClass("line-active")) {
       $(".line.active").removeClass("active");
       $(this).removeClass("line-active");
@@ -280,11 +288,9 @@ $(".legend .cta a").on("click", function() {
       activeCountry.push($(this).attr("class").replace(/active/g, '').trim());
     });
     updateDomain(activeCountry);
+    resetLegend();
     sortingCta.call(this);
   }
-  
-  resetLegend();
-
   
 });
 
@@ -319,11 +325,34 @@ function sortingCta() {
     res += ($(el).hasClass('active')) ? '0' : '1';
     res += $(el).data('cta');
     array.push(res);
+    $(this).attr('data-sort-val', res);
   });
-  d3.selectAll("[data-cta]")
-    .data(array)
-    .sort(function(a, b) {
-        return a - b;
-      })
-  ;
+
+  var arrAnimation = array.slice().sort();
+  var viewportWidth = $(window).width();
+  var duration = viewportWidth > 450 ? 300 : 0;
+  if(viewportWidth > 450) {
+    $("[data-cta]").each(function(id, el) {
+      var $li = $(el).closest('li');
+      var currIndex = $("[data-cta]").index($li[0]);
+      var sortIndex = arrAnimation.findIndex(function(val) {
+        return val == $li.attr('data-sort-val');
+      });
+      var direction = sortIndex - currIndex;
+      $li.addClass('transit');
+      $li.css('transform', 'translateY('+(direction*100)+'%)');
+
+    });
+  }
+
+  setTimeout(function() {
+    $("[data-cta]").removeClass('transit').removeAttr('style');
+    d3.selectAll("[data-cta]")
+      .data(array)
+      .sort(function(a, b) {
+          return a - b;
+        })
+    ;
+  }, duration)
+  
 }
