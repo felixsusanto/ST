@@ -421,12 +421,14 @@ function sortingCta() {
   // duration is set based on the width check
   setTimeout(function() {
     $("[data-cta]").removeClass('transit').removeAttr('style');
-    d3.selectAll("[data-cta]")
-      .data(array)
-      .sort(function(a, b) {
-          return a - b;
-        })
-    ;
+    if(viewportWidth > 450) {
+      d3.selectAll("[data-cta]")
+        .data(array)
+        .sort(function(a, b) {
+            return a - b;
+          })
+      ;
+    }
   }, duration);
   
 }
