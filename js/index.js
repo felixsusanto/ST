@@ -41,7 +41,7 @@ var countries;
 
 // d3 chart initialization based on the csv data
 
-d3.csv("_data/milledRiceEndingStocks.csv", type, function(error, data) {
+d3.csv("data/milledRiceEndingStocks.csv", type, function(error, data) {
   //throwing useful error for debugging
   if (error) throw error;
 
